@@ -176,6 +176,7 @@ bool JointCalibrationController::init(pr2_mechanism_model::RobotState *robot, ro
   is_calibrated_srv_ = node_.advertiseService("is_calibrated", &JointCalibrationController::isCalibrated, this);
 
   // "Calibrated" topic
+  pub_calibration_state_.reset(new realtime_tools::RealtimePublisher<std_msgs::Int32>(node_, "calibration_state", 1));
   pub_calibrated_.reset(new realtime_tools::RealtimePublisher<std_msgs::Empty>(node_, "calibrated", 1, true));
   pub_zero_offset_.reset(new realtime_tools::RealtimePublisher<std_msgs::Float32>(node_, "zero_offset", 1, true));
 
@@ -205,6 +206,11 @@ void JointCalibrationController::update()
 {
   assert(joint_);
   assert(actuator_);
+
+  if (pub_calibration_state_->trylock()) {
+    pub_calibration_state_->msg_.data = state_;
+    pub_calibration_state_->unlockAndPublish();
+  }
 
   switch(state_)
   {

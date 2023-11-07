@@ -44,6 +44,7 @@
 #include "realtime_tools/realtime_publisher.h"
 #include "std_msgs/Empty.h"
 #include "std_msgs/Float32.h"
+#include "std_msgs/Int32.h"
 #include "pr2_controllers_msgs/QueryCalibrationState.h"
 
 
@@ -69,6 +70,7 @@ protected:
   ros::ServiceServer is_calibrated_srv_;
   boost::scoped_ptr<realtime_tools::RealtimePublisher<std_msgs::Empty> > pub_calibrated_;
   boost::scoped_ptr<realtime_tools::RealtimePublisher<std_msgs::Float32> > pub_zero_offset_;
+  boost::scoped_ptr<realtime_tools::RealtimePublisher<std_msgs::Int32> > pub_calibration_state_;
 
   enum { INITIALIZED, BEGINNING, MOVING_TO_LOW, MOVING_TO_HIGH, CALIBRATED };
   int state_;
