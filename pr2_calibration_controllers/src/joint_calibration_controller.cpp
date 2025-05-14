@@ -188,7 +188,8 @@ void JointCalibrationController::starting()
 {
   state_ = INITIALIZED;
   joint_->calibrated_ = false;
-  actuator_->state_.zero_offset_ = 0.0;
+  // keep the current offset until we know a better one (better visualization with repeated calibration)
+  //actuator_->state_.zero_offset_ = 0.0;
   announced_calibration_success_ = false;
 }
 
